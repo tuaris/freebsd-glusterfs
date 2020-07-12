@@ -1,11 +1,12 @@
-# $FreeBSD: head/net/glusterfs/Makefile 517064 2019-11-08 13:48:34Z tobik $
+# Created by: Daniel Morante <daniel@morante.net>
+# $FreeBSD: $
 
 PORTNAME=	glusterfs
 PORTVERSION=	7.6
 CATEGORIES=	net
 MASTER_SITES=	http://bits.gluster.org/pub/gluster/glusterfs/src/
 
-MAINTAINER=	craig001@lerwick.hopto.org
+MAINTAINER=	daniel@morante.net
 COMMENT=	GlusterFS distributed file system
 
 LICENSE=	GPLv2 LGPL3
