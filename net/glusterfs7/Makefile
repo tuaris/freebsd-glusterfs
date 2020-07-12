@@ -47,7 +47,6 @@ CONFIGURE_ARGS=	--with-pkgconfigdir=${PREFIX}/libdata/pkgconfig \
 		--with-mountutildir=${PREFIX}/sbin \
 		--localstatedir=/var \
 		--disable-epoll \
-		--enable-glupy \
 		--disable-georeplication \
 		ac_cv_lib_aio_io_setup=no ac_cv_func_fallocate=no \
 		ac_cv_func_setfsuid=no ac_cv_func_fdatasync=no \
