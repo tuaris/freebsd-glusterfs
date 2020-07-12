@@ -33,11 +33,11 @@ SHEBANG_FILES=	extras/peer_add_secret_pub.in \
 		extras/post-upgrade-script-for-quota.sh \
 		extras/snap_scheduler/gcron.py \
 		extras/snap_scheduler/snap_scheduler.py \
+		extras/stop-all-gluster-processes.sh \
+		extras/thin-arbiter/setup-thin-arbiter.sh \
 		events/src/peer_eventsapi.py \
 		events/src/glustereventsd.py \
-		tools/glusterfind/S57glusterfind-delete-post.py \
-		share/glusterfs/scripts/setup-thin-arbiter.sh \
-		share/glusterfs/scripts/stop-all-gluster-processes.sh
+		tools/glusterfind/S57glusterfind-delete-post.py		
 
 USE_GNOME=	glib20 libxml2
 USE_LDCONFIG=	yes
