@@ -1,7 +1,7 @@
-GlusterFS 7.0 for FreeBSD
+GlusterFS 7.6 for FreeBSD
 =====
 
-GlusterFS 7.0 for FreeBSD.
+GlusterFS 7.6 for FreeBSD.
 https://www.gluster.org/
 
 ## Using with Portshaker
