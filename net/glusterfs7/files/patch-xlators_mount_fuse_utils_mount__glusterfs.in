@@ -1,0 +1,30 @@
+--- xlators/mount/fuse/utils/mount_glusterfs.in.orig	2020-05-18 20:57:54 UTC
++++ xlators/mount/fuse/utils/mount_glusterfs.in
+@@ -479,16 +479,6 @@ parse_options()
+ 
+ main ()
+ {
+-    ## `mount` on OSX specifies options as first argument
+-    echo $1|grep -q -- "-o"
+-    if [ $? -eq 0 ];  then
+-        volfile_loc=$3
+-        mount_point=$4
+-    else
+-        volfile_loc=$1
+-        mount_point=$2
+-    fi
+-
+     while getopts "Vo:h" opt; do
+         case "${opt}" in
+             o)
+@@ -508,6 +498,10 @@ main ()
+                 ;;
+         esac
+     done
++
++    shift $((OPTIND - 1))
++    volfile_loc="$1"
++    mount_point="$2"
+ 
+     [ -r "$volfile_loc" ] || {
+         # '%' included to support ipv6 link local addresses

@@ -1,0 +1,26 @@
+--- configure.ac.orig	2020-05-18 20:57:54 UTC
++++ configure.ac
+@@ -594,6 +594,8 @@ if test "x${have_strnlen}" = "xyes"; then
+ fi
+ AC_SUBST(HAVE_STRNLEN)
+ 
++# FreeBSD 12.1+ does not have basename_r
++AC_CHECK_FUNC([basename_r], [have_basename_r=yes])
+ 
+ AC_CHECK_FUNC([setfsuid], [have_setfsuid=yes])
+ AC_CHECK_FUNC([setfsgid], [have_setfsgid=yes])
+@@ -1242,9 +1244,11 @@ case $host_os in
+      *freebsd*)
+         GF_HOST_OS="GF_BSD_HOST_OS"
+         GF_CFLAGS="${GF_CFLAGS} -O0"
+-        GF_CFLAGS="${GF_CFLAGS} -DTHREAD_UNSAFE_BASENAME"
+-        GF_CFLAGS="${GF_CFLAGS} -DTHREAD_UNSAFE_DIRNAME"
+-        GF_CFLAGS="${GF_CFLAGS} -D_LIBGEN_H_"
++        if test "x${have_basename_r}" = "xyes"; then
++        	GF_CFLAGS="${GF_CFLAGS} -DTHREAD_UNSAFE_BASENAME"
++        	GF_CFLAGS="${GF_CFLAGS} -DTHREAD_UNSAFE_DIRNAME"
++	        GF_CFLAGS="${GF_CFLAGS} -D_LIBGEN_H_"        	
++        fi
+         GF_CFLAGS="${GF_CFLAGS} -DO_DSYNC=0"
+         GF_CFLAGS="${GF_CFLAGS} -Dxdr_quad_t=xdr_longlong_t"
+         GF_CFLAGS="${GF_CFLAGS} -Dxdr_u_quad_t=xdr_u_longlong_t"
