@@ -2,7 +2,7 @@ bin/glusterfind
 %%ETCDIR%%/eventsconfig.json
 %%ETCDIR%%/gluster-rsyslog-5.8.conf
 %%ETCDIR%%/gluster-rsyslog-7.2.conf
-@sample %%ETCDIR%%/glusterd.vol.sample
+@sample %%ETCDIR%%/glusterd.vol
 %%ETCDIR%%/glusterfs-georep-logrotate
 %%ETCDIR%%/glusterfs-logrotate
 %%ETCDIR%%/group-db-workload
@@ -119,6 +119,7 @@ include/glusterfs/xlator.h
 include/glusterfs/y.tab.h
 %%GLUSTERLIBDIR%%/auth/addr.so
 %%GLUSTERLIBDIR%%/auth/login.so
+%%GLUSTERLIBDIR%%/cloudsync-plugins/cloudsyncs3.so
 %%GLUSTERLIBDIR%%/rpc-transport/rdma.so
 %%GLUSTERLIBDIR%%/rpc-transport/socket.so
 %%GLUSTERLIBDIR%%/xlator/cluster/afr.so
@@ -141,6 +142,7 @@ include/glusterfs/y.tab.h
 %%GLUSTERLIBDIR%%/xlator/features/bitrot-stub.so
 %%GLUSTERLIBDIR%%/xlator/features/cdc.so
 %%GLUSTERLIBDIR%%/xlator/features/changelog.so
+%%GLUSTERLIBDIR%%/xlator/features/cloudsync.so
 %%GLUSTERLIBDIR%%/xlator/features/gfid-access.so
 %%GLUSTERLIBDIR%%/xlator/features/index.so
 %%GLUSTERLIBDIR%%/xlator/features/leases.so
