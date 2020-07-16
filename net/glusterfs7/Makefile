@@ -30,6 +30,8 @@ SHEBANG_FILES=	extras/peer_add_secret_pub.in \
 		tools/gfind_missing_files/gfid_to_path.py \
 		extras/pre-upgrade-script-for-quota.sh \
 		events/tools/eventsdash.py \
+		extras/hook-scripts/start/post/S29CTDBsetup.sh \
+		extras/hook-scripts/start/post/S30samba-start.sh \
 		extras/post-upgrade-script-for-quota.sh \
 		extras/snap_scheduler/gcron.py \
 		extras/snap_scheduler/snap_scheduler.py \
