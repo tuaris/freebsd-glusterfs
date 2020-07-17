@@ -14,6 +14,7 @@ LICENSE_COMB=	dual
 
 LIB_DEPENDS=	libargp.so:devel/argp-standalone liburcu-bp.so:sysutils/liburcu \
 				libuuid.so:misc/e2fsprogs-libuuid libcurl.so:ftp/curl
+RUN_DEPENDS=    bash:shells/bash
 
 USES=		bison gettext gnome libtool pkgconfig python:3.6+ readline \
 		shebangfix sqlite ssl autoreconf
