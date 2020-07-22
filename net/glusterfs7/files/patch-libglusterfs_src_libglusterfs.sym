@@ -1,0 +1,11 @@
+--- libglusterfs/src/libglusterfs.sym.orig	2020-05-18 20:57:54 UTC
++++ libglusterfs/src/libglusterfs.sym
+@@ -1071,6 +1071,8 @@ sys_write
+ sys_writev
+ sys_socket
+ sys_accept
++sys_kill
++sys_sysctl
+ tbf_init
+ tbf_throttle
+ timespec_now
