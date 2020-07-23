@@ -1,17 +1,21 @@
 --- xlators/mgmt/glusterd/src/glusterd-utils.c.orig	2020-05-18 20:57:54 UTC
 +++ xlators/mgmt/glusterd/src/glusterd-utils.c
-@@ -80,6 +80,10 @@
+@@ -80,6 +80,14 @@
  #include <sys/sockio.h>
  #endif
  
 +#ifdef __FreeBSD__
 +#include <sys/sysctl.h>
++#include <sys/param.h>
++#include <sys/queue.h>
++#include <libprocstat.h>
++#include <libutil.h>
 +#endif
 +
  #define NFS_PROGRAM 100003
  #define NFSV3_VERSION 3
  
-@@ -6240,7 +6244,6 @@ find_compatible_brick(glusterd_conf_t *conf, glusterd_
+@@ -6240,7 +6248,6 @@ find_compatible_brick(glusterd_conf_t *conf, glusterd_
  int
  glusterd_get_sock_from_brick_pid(int pid, char *sockpath, size_t len)
  {
@@ -19,7 +23,7 @@
      char buf[1024] = "";
      char cmdline[2048] = "";
      xlator_t *this = NULL;
-@@ -6255,6 +6258,22 @@ glusterd_get_sock_from_brick_pid(int pid, char *sockpa
+@@ -6255,6 +6262,22 @@ glusterd_get_sock_from_brick_pid(int pid, char *sockpa
      this = THIS;
      GF_ASSERT(this);
  
@@ -42,7 +46,7 @@
      snprintf(fname, sizeof(fname), "/proc/%d/cmdline", pid);
  
      if (sys_access(fname, R_OK) != 0) {
-@@ -6271,7 +6290,7 @@ glusterd_get_sock_from_brick_pid(int pid, char *sockpa
+@@ -6271,7 +6294,7 @@ glusterd_get_sock_from_brick_pid(int pid, char *sockpa
                 strerror(errno), fname);
          return ret;
      }
@@ -51,3 +55,62 @@
      /* convert cmdline to single string */
      for (i = 0, j = 0; i < blen; i++) {
          if (buf[i] == '\0')
+@@ -6319,6 +6342,42 @@ glusterd_get_sock_from_brick_pid(int pid, char *sockpa
+ char *
+ search_brick_path_from_proc(pid_t brick_pid, char *brickpath)
+ {
++    char *brick_path = NULL;
++#ifdef __FreeBSD__
++	struct filestat *fst;
++	struct procstat *ps;
++	struct kinfo_proc *kp;
++	struct filestat_list *head;
++
++	ps = procstat_open_sysctl();	
++	if (ps == NULL)
++		goto out;
++	
++	kp = kinfo_getproc(brick_pid);
++	if (kp == NULL)
++		goto out;
++	
++	head = procstat_getfiles(ps, (void *)kp, 0);
++	if (head == NULL)
++		goto out;
++
++	STAILQ_FOREACH(fst, head, next) {
++		if(fst->fs_fd < 0)
++			continue;
++
++        if (!strcmp(fst->fs_path, brickpath)) {
++            brick_path = gf_strdup(fst->fs_path);
++            break;
++        }
++	}
++
++out:
++	if (head != NULL)
++		procstat_freefiles(ps, head);
++	if (kp != NULL)
++		free(kp);
++	procstat_close(ps);
++#else
+     struct dirent *dp = NULL;
+     DIR *dirp = NULL;
+     size_t len = 0;
+@@ -6329,7 +6388,6 @@ search_brick_path_from_proc(pid_t brick_pid, char *bri
+             0,
+         },
+     };
+-    char *brick_path = NULL;
+ 
+     if (!brickpath)
+         goto out;
+@@ -6366,6 +6424,7 @@ search_brick_path_from_proc(pid_t brick_pid, char *bri
+     }
+ out:
+     sys_closedir(dirp);
++#endif
+     return brick_path;
+ }
+ 
