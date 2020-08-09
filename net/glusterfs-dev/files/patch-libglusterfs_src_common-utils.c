@@ -9,3 +9,26 @@
  
      size_t len = sizeof(memsize);
      int name[] = {CTL_HW, HW_PHYSMEM};
+@@ -4140,6 +4140,14 @@ gf_skip_header_section(int fd, int header_len)
+ gf_boolean_t
+ gf_is_pid_running(int pid)
+ {
++#ifdef __FreeBSD__
++	int ret = -1;
++
++	ret = sys_kill(pid, 0);
++	if (ret < 0) {
++		return _gf_false;
++	}
++#else
+     char fname[32] = {
+         0,
+     };
+@@ -4153,6 +4161,7 @@ gf_is_pid_running(int pid)
+     }
+ 
+     sys_close(fd);
++#endif
+     return _gf_true;
+ }
+ 
