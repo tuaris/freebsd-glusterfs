@@ -1,12 +1,16 @@
-GlusterFS 7.6 for FreeBSD
+GlusterFS for FreeBSD
 =====
 
-GlusterFS 7.6 for FreeBSD.
+GlusterFS for FreeBSD.
 https://www.gluster.org/
+
+Current ports include:
+
+- GlusterFS 7.6
 
 ## Using with Portshaker
 
-Add **github:tuaris:freebsd-glusterfs7** to your **_merge_from** line in `/usr/local/etc/portshaker.conf`.  For example.
+Add **github:tuaris:freebsd-glusterfs** to your **_merge_from** line in `/usr/local/etc/portshaker.conf`.  For example.
 
 ```
 #---[ Base directory for mirrored Ports Trees ]---
@@ -19,7 +23,7 @@ use_zfs="yes"
 poudriere_dataset="poudriere/poudriere"
 poudriere_ports_mountpoint="/usr/local/poudriere/ports"
 default_poudriere_tree="default"
-default_merge_from="ports github:tuaris:freebsd-glusterfs7"
+default_merge_from="ports github:tuaris:freebsd-glusterfs"
 ```
 
 
