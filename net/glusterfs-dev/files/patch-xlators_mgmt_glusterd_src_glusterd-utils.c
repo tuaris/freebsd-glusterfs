@@ -109,7 +109,7 @@
  out:
      if (dirp)
          sys_closedir(dirp);
-++#endif
++#endif
      return brick_path;
  }
  
