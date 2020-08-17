@@ -34,13 +34,13 @@
  #endif /* HAVE_COPY_FILE_RANGE */
  }
 +
++#ifdef __FreeBSD__
 +int
 +sys_kill(pid_t pid, int sig)
 +{
 +    return FS_RET_CHECK0(kill(pid, sig), errno);
 +}
 +
-+#ifdef __FreeBSD__
 +int
 +sys_sysctl(const int *name, u_int namelen, void *oldp,	size_t *oldlenp,
 +		 const void *newp, size_t newlen)
