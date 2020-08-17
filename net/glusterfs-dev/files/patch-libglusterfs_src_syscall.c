@@ -11,25 +11,45 @@
  #include <sys/types.h>
  #include <utime.h>
  #include <sys/time.h>
-@@ -506,7 +510,7 @@ sys_lsetxattr(const char *path, const char *name, cons
+@@ -506,9 +510,17 @@ sys_lsetxattr(const char *path, const char *name, cons
  #endif
  
  #ifdef GF_BSD_HOST_OS
 -    return FS_RET_CHECK0(
-+    return FS_RET_CHECK(
++    ssize_t ret = FS_RET_CHECK(
          extattr_set_link(path, EXTATTR_NAMESPACE_USER, name, value, size),
          errno);
++    /* On BSD extattr_set_link returns the number of bytes written/read on
++     * success. Force this to be 0 if it was successful so the result remains
++     * compatible with other platform expectations.
++     */
++    if(ret > 0) {
++       ret = 0;
++    }
++    return ret;
  #endif
-@@ -624,7 +628,7 @@ sys_fsetxattr(int filedes, const char *name, const voi
+ 
+ #ifdef GF_SOLARIS_HOST_OS
+@@ -624,9 +636,17 @@ sys_fsetxattr(int filedes, const char *name, const voi
  #endif
  
  #ifdef GF_BSD_HOST_OS
 -    return FS_RET_CHECK0(
-+    return FS_RET_CHECK(
++    ssize_t ret = FS_RET_CHECK(
          extattr_set_fd(filedes, EXTATTR_NAMESPACE_USER, name, value, size),
          errno);
++    /* On BSD extattr_set_fd returns the number of bytes written/read on
++     * success. Force this to be 0 if it was successful so the result remains
++     * compatible with other platform expectations.
++     */
++    if(ret > 0) {
++       ret = 0;
++    }
++    return ret;
  #endif
-@@ -854,3 +858,18 @@ sys_copy_file_range(int fd_in, off64_t *off_in, int fd
+ 
+ #ifdef GF_SOLARIS_HOST_OS
+@@ -854,3 +874,18 @@ sys_copy_file_range(int fd_in, off64_t *off_in, int fd
  #endif /* HAVE_COPY_FILE_RANGE_SYS */
  #endif /* HAVE_COPY_FILE_RANGE */
  }
