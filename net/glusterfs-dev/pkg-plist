@@ -11,8 +11,8 @@ bin/glusterfind
 %%ETCDIR%%/group-metadata-cache
 %%ETCDIR%%/group-nl-cache
 %%ETCDIR%%/group-samba
-@sample %%ETCDIR%%/group-virt.example
-@sample %%ETCDIR%%/logger.conf.example
+%%ETCDIR%%/group-virt.example
+@sample %%ETCDIR%%/logger.conf.example %%ETCDIR%%/logger.conf
 @sample etc/ganesha/ganesha-ha.conf.sample
 %%ETCDIR%%/thin-arbiter.vol
 include/glusterfs/api/glfs-handles.h

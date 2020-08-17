@@ -36,6 +36,9 @@ SHEBANG_FILES=	events/src/glustereventsd.py events/src/peer_eventsapi.py \
 		extras/ganesha/scripts/ganesha-ha.sh \
 		extras/ganesha/scripts/generate-epoch.py \
 		extras/peer_add_secret_pub.in \
+		extras/hook-scripts/start/post/S29CTDBsetup.sh \
+		extras/hook-scripts/start/post/S30samba-start.sh \
+		extras/hook-scripts/start/post/S31ganesha-start.sh \
 		extras/post-upgrade-script-for-quota.sh \
 		extras/pre-upgrade-script-for-quota.sh \
 		extras/snap_scheduler/gcron.py \
