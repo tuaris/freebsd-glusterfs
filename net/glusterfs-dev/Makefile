@@ -1,4 +1,4 @@
-# $FreeBSD: head/net/glusterfs/Makefile 543674 2020-07-29 20:33:59Z flo $
+# $FreeBSD: head/net/glusterfs/Makefile 559464 2020-12-28 12:11:33Z fluffy $
 
 PORTNAME=	glusterfs
 CATEGORIES=	net
@@ -16,19 +16,20 @@ COMMENT=	GlusterFS distributed file system
 LICENSE=	GPLv2 LGPL3
 LICENSE_COMB=	dual
 
+BROKEN_SSL=	libressl
+
+BUILD_DEPENDS=	bash:shells/bash
+RUN_DEPENDS=	bash:shells/bash
 LIB_DEPENDS=	libargp.so:devel/argp-standalone \
 		libcurl.so:ftp/curl \
 		liburcu-bp.so:sysutils/liburcu \
 		libuuid.so:misc/e2fsprogs-libuuid
 
-RUN_DEPENDS=	bash:shells/bash
-
-BROKEN_SSL=	libressl
-
-USES=		autoreconf bison gettext gnome libtool pkgconfig python \
+USES=		autoreconf bison compiler:c11 gettext gnome libtool pkgconfig python \
 		readline shebangfix sqlite ssl
 
-SHEBANG_FILES=	events/src/glustereventsd.py events/src/peer_eventsapi.py \
+SHEBANG_FILES=	build-aux/pkg-version \
+		events/src/glustereventsd.py events/src/peer_eventsapi.py \
 		events/tools/eventsdash.py extras/ganesha/ocf/ganesha_grace \
 		extras/ganesha/ocf/ganesha_mon extras/ganesha/ocf/ganesha_nfsd \
 		extras/ganesha/scripts/create-export-ganesha.sh \
@@ -54,6 +55,7 @@ SHEBANG_FILES=	events/src/glustereventsd.py events/src/peer_eventsapi.py \
 
 USE_GNOME=	glib20 libxml2
 USE_LDCONFIG=	yes
+USE_PYTHON=	py3kplist
 USE_RC_SUBR=	glusterd
 GNU_CONFIGURE=	yes
 CONFIGURE_ARGS=	--disable-epoll \
@@ -70,9 +72,16 @@ CONFIGURE_ARGS=	--disable-epoll \
 CPPFLAGS+=	-I"${LOCALBASE}/include"
 LDFLAGS+=	-L"${LOCALBASE}/lib" -largp
 INSTALL_TARGET=	install-strip
-PLIST_SUB=	GLUSTERLIBDIR="lib/${PORTNAME}"
+PLIST_SUB=	GLUSTERLIBDIR="lib/${PORTNAME}" \
+		PORTVERSION="${PORTVERSION}"
 KMODDIR?=	/boot/modules
 
 OPTIONS_DEFINE=	DOCS
+
+post-install:
+		${LN} -nfs ${PREFIX}/libexec/glusterfs/glusterfind/S57glusterfind-delete-post.py		${STAGEDIR}/var/db/glusterd/hooks/1/delete/post/S57glusterfind-delete-post
+		${LN} -nfs ../libexec/glusterfs/peer_eventsapi.py						${STAGEDIR}${PREFIX}/sbin/gluster-eventsapi
+		${LN} -nfs ../libexec/glusterfs/gfevents/glustereventsd.py					${STAGEDIR}${PREFIX}/sbin/glustereventsd
+		${LN} -nfs ../libexec/glusterfs/gfind_missing_files/gfind_missing_files.sh			${STAGEDIR}${PREFIX}/sbin/gfind_missing_files
 
 .include <bsd.port.mk>

@@ -1,8 +1,8 @@
 # $FreeBSD: head/net/glusterfs/Makefile 559464 2020-12-28 12:11:33Z fluffy $
 
 PORTNAME=	glusterfs
-PORTVERSION=	8.0
-PORTREVISION=	2
+PORTVERSION=	9.0
+PORTREVISION=	0
 CATEGORIES=	net
 MASTER_SITES=	http://bits.gluster.org/pub/gluster/glusterfs/src/
 
@@ -57,6 +57,7 @@ GNU_CONFIGURE=	yes
 CONFIGURE_ARGS=	--disable-epoll \
 		--disable-georeplication \
 		--localstatedir=/var \
+		--enable-gnfs \
 		--with-mountutildir=${PREFIX}/sbin \
 		--with-pkgconfigdir=${PREFIX}/libdata/pkgconfig \
 		ac_cv_func_fallocate=no \
