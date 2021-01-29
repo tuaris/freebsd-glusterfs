@@ -7,7 +7,8 @@ https://www.gluster.org/
 Current ports include:
 
 - GlusterFS 7.6 (net/glusterfs7)
-- GlusterFS 8.0 (net/glusterfs)
+- GlusterFS 8.0 (net/glusterfs) <== Current version in ports
+- GlusterFS 9.0 (net/glusterfs9)
 - GlusterFS development (net/glusterfs-dev)
 
 ## Using with Portshaker
