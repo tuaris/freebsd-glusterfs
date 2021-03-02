@@ -1,6 +1,6 @@
---- libglusterfs/src/common-utils.c.orig	2020-07-06 01:22:37 UTC
+--- libglusterfs/src/common-utils.c.orig	2021-02-24 11:53:18 UTC
 +++ libglusterfs/src/common-utils.c
-@@ -3113,7 +3113,7 @@ get_mem_size()
+@@ -3127,7 +3127,7 @@ get_mem_size()
      memsize = page_size * num_pages;
  #endif
  
@@ -9,7 +9,7 @@
  
      size_t len = sizeof(memsize);
      int name[] = {CTL_HW, HW_PHYSMEM};
-@@ -4127,6 +4127,14 @@ gf_skip_header_section(int fd, int header_len)
+@@ -4141,6 +4141,14 @@ gf_skip_header_section(int fd, int header_len)
  gf_boolean_t
  gf_is_pid_running(int pid)
  {
@@ -24,7 +24,7 @@
      char fname[32] = {
          0,
      };
-@@ -4140,6 +4148,7 @@ gf_is_pid_running(int pid)
+@@ -4154,6 +4162,7 @@ gf_is_pid_running(int pid)
      }
  
      sys_close(fd);

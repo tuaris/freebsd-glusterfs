@@ -1,4 +1,4 @@
---- xlators/mgmt/glusterd/src/glusterd-utils.c.orig	2020-07-06 01:22:37 UTC
+--- xlators/mgmt/glusterd/src/glusterd-utils.c.orig	2021-02-24 11:53:18 UTC
 +++ xlators/mgmt/glusterd/src/glusterd-utils.c
 @@ -79,6 +79,14 @@
  #include <sys/sockio.h>
@@ -15,7 +15,7 @@
  #define NFS_PROGRAM 100003
  #define NFSV3_VERSION 3
  
-@@ -6270,7 +6278,6 @@ find_compatible_brick(glusterd_conf_t *conf, glusterd_
+@@ -6352,7 +6360,6 @@ find_compatible_brick(glusterd_conf_t *conf, glusterd_
  int
  glusterd_get_sock_from_brick_pid(int pid, char *sockpath, size_t len)
  {
@@ -23,7 +23,7 @@
      char buf[1024] = "";
      char cmdline[2048] = "";
      xlator_t *this = NULL;
-@@ -6285,6 +6292,22 @@ glusterd_get_sock_from_brick_pid(int pid, char *sockpa
+@@ -6367,6 +6374,22 @@ glusterd_get_sock_from_brick_pid(int pid, char *sockpa
      this = THIS;
      GF_ASSERT(this);
  
@@ -46,7 +46,7 @@
      snprintf(fname, sizeof(fname), "/proc/%d/cmdline", pid);
  
      if (sys_access(fname, R_OK) != 0) {
-@@ -6301,6 +6324,7 @@ glusterd_get_sock_from_brick_pid(int pid, char *sockpa
+@@ -6383,6 +6406,7 @@ glusterd_get_sock_from_brick_pid(int pid, char *sockpa
                 strerror(errno), fname);
          return ret;
      }
@@ -54,7 +54,7 @@
  
      /* convert cmdline to single string */
      for (i = 0, j = 0; i < blen; i++) {
-@@ -6349,6 +6373,42 @@ glusterd_get_sock_from_brick_pid(int pid, char *sockpa
+@@ -6431,6 +6455,44 @@ glusterd_get_sock_from_brick_pid(int pid, char *sockpa
  char *
  search_brick_path_from_proc(pid_t brick_pid, char *brickpath)
  {
@@ -92,12 +92,14 @@
 +		procstat_freefiles(ps, head);
 +	if (kp != NULL)
 +		free(kp);
++    if (fst != NULL)
++        free(fst);
 +	procstat_close(ps);
 +#else
      struct dirent *dp = NULL;
      DIR *dirp = NULL;
      size_t len = 0;
-@@ -6359,7 +6419,6 @@ search_brick_path_from_proc(pid_t brick_pid, char *bri
+@@ -6441,7 +6503,6 @@ search_brick_path_from_proc(pid_t brick_pid, char *bri
              0,
          },
      };
@@ -105,7 +107,7 @@
  
      if (!brickpath)
          goto out;
-@@ -6396,6 +6455,7 @@ search_brick_path_from_proc(pid_t brick_pid, char *bri
+@@ -6478,6 +6539,7 @@ search_brick_path_from_proc(pid_t brick_pid, char *bri
      }
  out:
      sys_closedir(dirp);

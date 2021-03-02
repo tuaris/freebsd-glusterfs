@@ -1,6 +1,6 @@
---- libglusterfs/src/glusterfs/syscall.h.orig	2020-08-04 12:41:32 UTC
+--- libglusterfs/src/glusterfs/syscall.h.orig	2021-02-24 11:53:18 UTC
 +++ libglusterfs/src/glusterfs/syscall.h
-@@ -266,4 +266,13 @@ ssize_t
+@@ -269,4 +269,13 @@ ssize_t
  sys_copy_file_range(int fd_in, off64_t *off_in, int fd_out, off64_t *off_out,
                      size_t len, unsigned int flags);
  

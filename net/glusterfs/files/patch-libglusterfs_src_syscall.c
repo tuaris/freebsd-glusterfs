@@ -1,4 +1,4 @@
---- libglusterfs/src/syscall.c.orig	2020-08-04 12:41:32 UTC
+--- libglusterfs/src/syscall.c.orig	2021-02-24 11:53:18 UTC
 +++ libglusterfs/src/syscall.c
 @@ -13,6 +13,10 @@
  #include "glusterfs/mem-pool.h"
@@ -11,7 +11,7 @@
  #include <sys/types.h>
  #include <utime.h>
  #include <sys/time.h>
-@@ -506,9 +510,17 @@ sys_lsetxattr(const char *path, const char *name, cons
+@@ -512,9 +516,17 @@ sys_lsetxattr(const char *path, const char *name, cons
  #endif
  
  #ifdef GF_BSD_HOST_OS
@@ -30,7 +30,7 @@
  #endif
  
  #ifdef GF_SOLARIS_HOST_OS
-@@ -624,9 +636,17 @@ sys_fsetxattr(int filedes, const char *name, const voi
+@@ -630,9 +642,17 @@ sys_fsetxattr(int filedes, const char *name, const voi
  #endif
  
  #ifdef GF_BSD_HOST_OS
@@ -49,7 +49,7 @@
  #endif
  
  #ifdef GF_SOLARIS_HOST_OS
-@@ -854,3 +874,18 @@ sys_copy_file_range(int fd_in, off64_t *off_in, int fd
+@@ -860,3 +880,18 @@ sys_copy_file_range(int fd_in, off64_t *off_in, int fd
  #endif /* HAVE_COPY_FILE_RANGE_SYS */
  #endif /* HAVE_COPY_FILE_RANGE */
  }
