@@ -1,8 +1,8 @@
 # $FreeBSD: head/net/glusterfs/Makefile 559464 2020-12-28 12:11:33Z fluffy $
 
 PORTNAME=	glusterfs
-PORTVERSION=	8.0
-PORTREVISION=	2
+PORTVERSION=	8.4
+PORTREVISION=	0
 CATEGORIES=	net
 MASTER_SITES=	http://bits.gluster.org/pub/gluster/glusterfs/src/
 
@@ -21,7 +21,7 @@ LIB_DEPENDS=	libargp.so:devel/argp-standalone \
 		liburcu-bp.so:sysutils/liburcu \
 		libuuid.so:misc/e2fsprogs-libuuid
 
-USES=		autoreconf bison compiler:c11 gettext gnome libtool pkgconfig python \
+USES=		autoreconf:build bison compiler:c11 gettext gnome libtool pkgconfig python \
 		readline shebangfix sqlite ssl
 
 SHEBANG_FILES=	build-aux/pkg-version \
@@ -73,6 +73,9 @@ PLIST_SUB=	GLUSTERLIBDIR="lib/${PORTNAME}" \
 KMODDIR?=	/boot/modules
 
 OPTIONS_DEFINE=	DOCS
+
+pre-configure:
+	cd ${WRKSRC} && ./autogen.sh
 
 post-install:
 		${LN} -nfs ${PREFIX}/libexec/glusterfs/glusterfind/S57glusterfind-delete-post.py		${STAGEDIR}/var/db/glusterd/hooks/1/delete/post/S57glusterfind-delete-post
