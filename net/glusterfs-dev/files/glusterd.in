@@ -3,8 +3,7 @@
 # $FreeBSD: head/net/glusterfs/files/glusterd.in 543674 2020-07-29 20:33:59Z flo $
 
 # PROVIDE: glusterd
-# BEFORE: mountlate
-# REQUIRE: NETWORKING
+# REQUIRE: LOGIN
 # KEYWORD: shutdown
 
 . /etc/rc.subr
