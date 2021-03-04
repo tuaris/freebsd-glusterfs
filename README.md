@@ -12,6 +12,32 @@ Current ports include:
 - GlusterFS 9.0 (net/glusterfs90)
 - GlusterFS development (net/glusterfs-dev)
 
+## Testing with Vagrant
+
+Clone the [Vagrant_GlusterFS](https://github.com/tuaris/Vagrant_GlusterFS) repository
+to your local machine.
+
+```
+git clone https://github.com/tuaris/Vagrant_GlusterFS.git
+```
+
+If you haven't already, clone this repository and build a package for the version 
+of GlusterFS you want to test.
+
+```
+git clone https://github.com/tuaris/freebsd-glusterfs.git
+cd freebsd-glusterfs/net/gluster90
+make package
+```
+
+Copy the built package to the `Vagrant_GlusterFS` repository.
+
+```
+cp work/pkg/glusterfs*.tbx ../../../path/to/Vagrant_GlusterFS/
+```
+
+Continue with following the Vagrant GlusterFS [Quick Start](https://github.com/tuaris/Vagrant_GlusterFS#quick-start) instructions.
+
 ## Using with Portshaker
 
 Add **github:tuaris:freebsd-glusterfs** to your **_merge_from** line in `/usr/local/etc/portshaker.conf`.  For example.
