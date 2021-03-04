@@ -1,11 +1,11 @@
 # $FreeBSD: head/net/glusterfs/Makefile 559464 2020-12-28 12:11:33Z fluffy $
 
 PORTNAME=	glusterfs
-PORTVERSION=	8.4
-PORTREVISION=	0
+PORTVERSION=	8.0
+PORTREVISION=	2
 CATEGORIES=	net
 MASTER_SITES=	http://bits.gluster.org/pub/gluster/glusterfs/src/
-
+PKGNAMESUFFIX=	80
 MAINTAINER=	daniel@morante.net
 COMMENT=	GlusterFS distributed file system
 
@@ -21,24 +21,8 @@ LIB_DEPENDS=	libargp.so:devel/argp-standalone \
 		liburcu-bp.so:sysutils/liburcu \
 		libuuid.so:misc/e2fsprogs-libuuid
 
-USES=		autoreconf:build bison compiler:c11 gettext gnome libtool pkgconfig python \
-		readline shebangfix sqlite ssl localbase
-		
-OPTIONS_DEFINE=	DOCS
-OPTIONS_DEFAULT=	POLL
-OPTIONS_SINGLE=	MPXG
-OPTIONS_SINGLE_MPXG=	EPOLL POLL
-
-MPXG_DESC=	IO multiplex style
-EPOLL_DESC=	Use epoll on top of kqueue
-POLL_DESC=	Use POSIX poll
-EPOLL_LIB_DEPENDS=	libepoll-shim.so:devel/libepoll-shim
-EPOLL_CFLAGS=            -I${LOCALBASE}/include/libepoll-shim
-EPOLL_LDFLAGS=           -lepoll-shim
-
-.if empty(PORT_OPTIONS:MEPOLL)
-CONFIGURE_ARGS+=--disable-epoll
-.endif
+USES=		autoreconf bison compiler:c11 gettext gnome libtool pkgconfig python \
+		readline shebangfix sqlite ssl
 
 SHEBANG_FILES=	build-aux/pkg-version \
 		events/src/glustereventsd.py events/src/peer_eventsapi.py \
@@ -70,7 +54,8 @@ USE_LDCONFIG=	yes
 USE_PYTHON=	py3kplist
 USE_RC_SUBR=	glusterd
 GNU_CONFIGURE=	yes
-CONFIGURE_ARGS=	--disable-georeplication \
+CONFIGURE_ARGS=	--disable-epoll \
+		--disable-georeplication \
 		--localstatedir=/var \
 		--with-mountutildir=${PREFIX}/sbin \
 		--with-pkgconfigdir=${PREFIX}/libdata/pkgconfig \
@@ -80,16 +65,16 @@ CONFIGURE_ARGS=	--disable-georeplication \
 		ac_cv_func_malloc_stats=no \
 		ac_cv_func_setfsuid=no \
 		ac_cv_lib_aio_io_setup=no
-LDFLAGS+=	-largp
+CPPFLAGS+=	-I"${LOCALBASE}/include"
+LDFLAGS+=	-L"${LOCALBASE}/lib" -largp
 INSTALL_TARGET=	install-strip
 PLIST_SUB=	GLUSTERLIBDIR="lib/${PORTNAME}" \
 		PORTVERSION="${PORTVERSION}"
 KMODDIR?=	/boot/modules
 
-CONFLICTS_INSTALL=	glusterfs[0-9]*
+CONFLICTS_INSTALL=	glusterfs76
 
-pre-configure:
-	cd ${WRKSRC} && ./autogen.sh
+OPTIONS_DEFINE=	DOCS
 
 post-install:
 		${LN} -nfs ${PREFIX}/libexec/glusterfs/glusterfind/S57glusterfind-delete-post.py		${STAGEDIR}/var/db/glusterd/hooks/1/delete/post/S57glusterfind-delete-post

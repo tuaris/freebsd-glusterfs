@@ -10,6 +10,8 @@ DISTVERSIONSUFFIX=  -g72a9fc8ca
 USE_GITHUB=	yes
 GH_ACCOUNT=	gluster
 
+PKGNAMESUFFIX=	-dev
+
 MAINTAINER=	daniel@morante.net
 COMMENT=	GlusterFS distributed file system
 
@@ -26,7 +28,23 @@ LIB_DEPENDS=	libargp.so:devel/argp-standalone \
 		libuuid.so:misc/e2fsprogs-libuuid
 
 USES=		autoreconf:build bison compiler:c11 gettext gnome libtool pkgconfig python \
-		readline shebangfix sqlite ssl
+		readline shebangfix sqlite ssl localbase
+
+OPTIONS_DEFINE=	DOCS
+OPTIONS_DEFAULT=	POLL
+OPTIONS_SINGLE=	MPXG
+OPTIONS_SINGLE_MPXG=	EPOLL POLL
+
+MPXG_DESC=	IO multiplex style
+EPOLL_DESC=	Use epoll on top of kqueue
+POLL_DESC=	Use POSIX poll
+EPOLL_LIB_DEPENDS=	libepoll-shim.so:devel/libepoll-shim
+EPOLL_CFLAGS=            -I${LOCALBASE}/include/libepoll-shim
+EPOLL_LDFLAGS=           -lepoll-shim
+
+.if empty(PORT_OPTIONS:MEPOLL)
+CONFIGURE_ARGS+=--disable-epoll
+.endif
 
 SHEBANG_FILES=	build-aux/pkg-version \
 		events/src/glustereventsd.py events/src/peer_eventsapi.py \
@@ -58,8 +76,7 @@ USE_LDCONFIG=	yes
 USE_PYTHON=	py3kplist
 USE_RC_SUBR=	glusterd
 GNU_CONFIGURE=	yes
-CONFIGURE_ARGS=	--disable-epoll \
-		--disable-georeplication \
+CONFIGURE_ARGS=	--disable-georeplication \
 		--localstatedir=/var \
 		--enable-gnfs \
 		--with-mountutildir=${PREFIX}/sbin \
@@ -70,14 +87,13 @@ CONFIGURE_ARGS=	--disable-epoll \
 		ac_cv_func_malloc_stats=no \
 		ac_cv_func_setfsuid=no \
 		ac_cv_lib_aio_io_setup=no
-CPPFLAGS+=	-I"${LOCALBASE}/include"
-LDFLAGS+=	-L"${LOCALBASE}/lib" -largp
+LDFLAGS+=	-largp
 INSTALL_TARGET=	install-strip
 PLIST_SUB=	GLUSTERLIBDIR="lib/${PORTNAME}" \
 		PORTVERSION="${PORTVERSION}"
 KMODDIR?=	/boot/modules
 
-OPTIONS_DEFINE=	DOCS
+CONFLICTS_INSTALL=	glusterfs glusterfs[0-9]*
 
 pre-configure:
 	cd ${WRKSRC} && ./autogen.sh

@@ -6,9 +6,10 @@ https://www.gluster.org/
 
 Current ports include:
 
-- GlusterFS 7.6 (net/glusterfs7)
-- GlusterFS 8.0 (net/glusterfs) <== Current version in ports
-- GlusterFS 9.0 (net/glusterfs9)
+- GlusterFS 7.6 (net/glusterfs76)
+- GlusterFS 8.0 (net/glusterfs80) <== Current version in ports
+- GlusterFS 8.4 (net/glusterfs)
+- GlusterFS 9.0 (net/glusterfs90)
 - GlusterFS development (net/glusterfs-dev)
 
 ## Using with Portshaker
@@ -28,5 +29,3 @@ poudriere_ports_mountpoint="/usr/local/poudriere/ports"
 default_poudriere_tree="default"
 default_merge_from="ports github:tuaris:freebsd-glusterfs"
 ```
-
-

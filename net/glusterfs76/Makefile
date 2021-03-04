@@ -5,7 +5,7 @@ PORTNAME=	glusterfs
 PORTVERSION=	7.6
 CATEGORIES=	net
 MASTER_SITES=	http://bits.gluster.org/pub/gluster/glusterfs/src/
-
+PKGNAMESUFFIX=	76
 MAINTAINER=	daniel@morante.net
 COMMENT=	GlusterFS distributed file system
 
