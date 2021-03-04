@@ -14,7 +14,7 @@ Current ports include:
 
 ## Testing with Vagrant
 
-Clone the [Vagrant_GlusterFS](https://github.com/tuaris/Vagrant_GlusterFS) repository
+Clone the [Vagrant GlusterFS](https://github.com/tuaris/Vagrant_GlusterFS) repository
 to your local machine.
 
 ```
@@ -33,7 +33,7 @@ make package
 Copy the built package to the `Vagrant_GlusterFS` repository.
 
 ```
-cp work/pkg/glusterfs*.tbx ../../../path/to/Vagrant_GlusterFS/
+cp work/pkg/glusterfs*.txx ../../../path/to/Vagrant_GlusterFS/
 ```
 
 Continue with following the Vagrant GlusterFS [Quick Start](https://github.com/tuaris/Vagrant_GlusterFS#quick-start) instructions.
