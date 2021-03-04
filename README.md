@@ -33,7 +33,7 @@ make package
 Copy the built package to the `Vagrant_GlusterFS` repository.
 
 ```
-cp work/pkg/glusterfs*.txx ../../../path/to/Vagrant_GlusterFS/
+cp work/pkg/glusterfs*.txz ../../../path/to/Vagrant_GlusterFS/
 ```
 
 Continue with following the Vagrant GlusterFS [Quick Start](https://github.com/tuaris/Vagrant_GlusterFS#quick-start) instructions.
